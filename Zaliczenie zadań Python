@@ -1,0 +1,211 @@
+#Korzystajac z pojecia funkcji utwórz skrypt, który bedzie mial możliwosc zamiany temperatury pomiedzy skalami Celsjusza i Fahrenheita (w obie strony). C = (F-32)x(5/9), F = (C*9/5)+32
+
+def nacelsjusz(a):
+    print('fahrenheity',a,'celsjuesze',(a-32)*5/9)
+def nafahrenheit(a):
+    print('celsjuesz:',a,'fahrenheity',9*a/5+32)
+
+dec = input('zamieniamy na celsjusze czy na fahrenheity(wpisz c/f)')
+while (dec == 'f'):
+    a = float(input('podaj wartosc w celsjuszach:'))
+    nafahrenheit(a)
+    break
+while (dec == 'c'):
+    a = float(input('podaj wartosc w fahrenheitah:'))
+    nacelsjusz(a)
+    break
+
+#Utwórz skrypt do znajdowania miejsc zerowych trójmianu kwadratowego x1 = (-b+sqrt(b*b-4*a*c))/(2*a), x2 = (-b-sqrt(b*b-4*a*c))/(2*a)
+
+a = float(input('Podaj wspolczynnik a'))
+b = float(input('Podaj wspolczynnik b'))
+c = float(input('Podaj wspolczynnik c'))
+delta = b*b-(4*a*c)
+if delta > 0:
+    pdelta = (delta) ** 0.5
+    print('x1 =',(-b+pdelta)/(2*a))
+    print('x2 =', (-b-pdelta)/(2*a))
+if delta == 0:
+    print('x1 =', (-b)/(2*a))
+if delta < 0:
+    print('brak rozwiazan')
+    
+#9. Utwórz skrypt z interfejsem tekstowym, który wyliczy sume n kolejnych liczb (użytkownik podaje pierwsza i ostatnia liczbe sumy). Uwaga - w zadaniu należy zbudowac funkcje wlasna realizujaca dane zadanie
+    
+a = int(input('Podaj pierwsza liczbe'))
+b = int(input('Podaj druga liczbe'))
+j=0
+for i in range (a,b+1):
+    j=j+i
+
+print(j)
+
+#10. Utwórz skrypt z interfejsem tekstowym, który przyjmie od użytkownika ile elementów chce on wprowadzic do listy, przyjmie te elementy, a nastepnie wyliczy: srednia i odchylenie standardowe sredniej. Wykonac zadanie na dwa sposoby: poprzez utworzenie funkcji wlasnych obliczajacych srednia i odchylenie standardowe oraz korzystajac z gotowych funkcji np. z pakietu numpy
+from numpy import mean,std
+
+listax=[]
+
+n = int(input('Podaj ilosc elementow:'))
+suma=0
+for i in range (1 ,n+1):
+    print('podaj wartosc argumentu x',i,':')
+    x=int(input())
+    listax.append(x)
+    suma=suma+listax[i-1]
+def srednia(suma,n):
+    return suma/n
+sr=srednia(suma,n)
+def odchylenie(listax,n,sr):
+    sumaz=0
+    for i in range (0,n):
+        z=(listax[i]-sr)*(listax[i]-sr)
+        sumaz=sumaz+z
+    return (sumaz/n) ** (1/2)
+
+od=odchylenie(listax,n,sr)
+print('srednia wedlug mojej funkcji',sr)
+print('srednia wedlug numpy',mean(listax))
+print('odchylenie wedlug mojej funkcji',od)
+print('odchylenie wedlug numpy',std(listax))
+
+#15. Utwórz skrypt, w którym zamiescisz 3 listy danych, zawierajace po 14 temperatur dla 3 wybranych miast na kolejne 14 dni oraz utwórz wykres z tych danych. Twój wykres powinien miec 3 linie z zaznaczonymi punktami danych za pomoca różnych znaczników, tytul, opisane osie oraz legende
+        
+from pylab import plot, show, xticks, yticks, ylabel, xlabel, legend, title
+listax=[6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+listay=[10,10,10,11,8,8,9,9,10,11,10,10,10,6]
+listaz=[9,10,10,8,8,7,9,9,8,9,9,9,9,6]
+listaa=[13,12,13,13,9,10,10,10,10,11,11,11,12,8]
+
+plot(listax,listay,'--b',listax,listaz,'-*y',listax,listaa,'-^g')
+xticks([6,10,15,20],fontsize=20)#fontname ,fontsize, fontstyle ,fontcolor)
+yticks([5,10,15],fontsize=20)
+ylabel('DNI',fontsize=20)
+xlabel('TEMPERATURA',fontsize=20)
+title('Temperatura w miastach', fontsize=40)
+legend(['Poznan','Gorzow WLKP','Wroclaw'])   
+
+#17. Utwórz funkcje, która bedzie generowac listy danych do wykreslenia w oparciu o:
+#a) fukcje liniowa ax+b
+#b) funkcje kwadratowa ax^2+bx+c
+#c) funkcje odwrotnie-potegowa a/x^n
+#Każda z fukcji powinna przyjmowac parametry równania, natomiast zwracac powinna dwie listy - x i y, które nastepnie bedzie można wykreslic na wykresie
+from pylab import plot
+
+a = int(input('Podaj wartosc elementu a:'))
+b = int(input('Podaj wartosc elementu b:'))
+c = int(input('Podaj wartosc elementu c:'))
+n = int(input('Podaj wartosc elementu n:'))
+x=[]
+
+for i in range (1,11):
+    x.append(i)
+    
+def liniowa (x,a,b):
+    y=[]
+    for i in range (0,10):
+        z=a*x[i]+b
+        y.append(z)
+    return plot(x,y)
+liniowa (x,a,b)
+
+def kwadratowa (a,b,c,x):
+    y=[]
+    for i in range (0,10):
+        z=a*x[i]*x[i]+b*x[i]
+        y.append(z)
+    return plot(x,y)
+kwadratowa (a,b,c,x)
+    
+def odwrotna (a,x,n):
+    y=[]
+    for i in range (0,10):
+        z=a/(x[i]**n)
+        y.append(z)
+    return plot(x,y)
+odwrotna (a,x,n)
+
+#21. Utwórz fukcje, która jako argument bedzie przyjmowac liste liczb zmiennoprzecinkowych, a jej wynikiem bedzie srednia arytmetyczna. Porównaj jej wynik z wynikiem fukcji mean z pakietu numpy
+
+from numpy import mean,sort
+lol=[]
+n = int(input('Podaj ilosc elementow'))
+for i in range (1 ,n+1):
+    print('podaj wartosc argumentu x',i,':')
+    x=float(input())
+    lol.append(x)
+print(mean(lol))
+
+#22. Utwórz fukcje, która jako argument bedzie przyjmowac liste liczb zmiennoprzecinkowych, a jej wynikiem bedzie mediana (skorzystaj z metody sort dzialajacej na standardowych listach)
+
+from numpy import mean,sort
+lol=[]
+n = int(input('Podaj ilosc elementow'))
+for i in range (0 ,n):
+    print('podaj wartosc argumentu x',i,':')
+    x=float(input())
+    lol.append(x)
+lol=sort(lol)
+m=n%2
+if (m == 1):
+    print((lol[n/2]))
+    lol[w]
+else:
+    print((lol[n/2]+lol[n/2+1])/2)
+    
+    
+#29
+    for i in range (1,11):
+        x.append(i)
+        y.append(i**2)
+    
+    def regresja_liniowa(x, y):
+    kw_x = 0
+    for i in x:
+        kw_x += i**2
+        
+    a = (len(x) * sum(x) * sum(y)) - (sum(x) * sum(y)) / (len(x) * kw_x) - (sum(x)** 2)
+    b = (len(x) * kw_x * sum(y)) - (sum(x) - sum(y)) / (len(x) * kw_x) - (sum(x) ** 2)
+    return a, b
+
+
+
+#34
+class Figura:
+def __init__(self, wysokosc, dlugosc):
+   self.wysokosc = wysokosc
+   self.dlugosc = dlugosc
+   
+#35
+   
+class Kwadrat:
+    def __init__(self, a, b, c, d):
+        self.a=a
+        self.b=b
+        self.c=c
+        self.d=d
+        
+    def wyswietl(self):
+        return self
+    
+    def pole(self):
+        return self.a*self.b
+    
+    def obwod(self):
+        return self.a+self.b+self.c+self.d
+
+#36
+    
+class Prostokat():
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+        
+    def obwod(self):
+        return 2*self.a+2*self.b
+
+    def pole(self):
+        return self.a*self.b
+
+class Kwadrat(Prostokat):
+    def __init__(self, a):
+        super().__init__(a, a)
